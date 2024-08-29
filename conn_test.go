@@ -1,9 +1,12 @@
 package icapclient_test
 
 import (
+	"bufio"
 	"context"
 	"fmt"
+	"io"
 	"net"
+	"strings"
 	"testing"
 	"time"
 
@@ -75,12 +78,17 @@ func TestICAPConn_Send(t *testing.T) {
 					}
 				}
 
-				res, err := clientConn.Send(nil)
+				res, err := clientConn.Send(bufio.NewReader(strings.NewReader("")))
 				if err != nil {
 					t.Fatal(err)
 				}
 
-				if got := string(res); got != tc.want {
+				got, err := io.ReadAll(res)
+				if err != nil {
+					t.Fatal(err.Error())
+				}
+
+				if tc.want != string(got) {
 					t.Errorf("ICAPConn.Send() = %v, want %v", got, tc.want)
 				}
 			})

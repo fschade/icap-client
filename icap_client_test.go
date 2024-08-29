@@ -223,9 +223,12 @@ func TestToICAPMessage(t *testing.T) {
 		wanted := "OPTIONS icap://localhost:1344/something ICAP/1.0\r\n" +
 			"Encapsulated:  null-body=0\r\n\r\n"
 
-		got := string(icapRequest)
+		got, err := io.ReadAll(icapRequest)
+		if err != nil {
+			t.Fatal(err.Error())
+		}
 
-		if wanted != got {
+		if wanted != string(got) {
 			t.Logf("wanted: %s, got: %s\n", wanted, got)
 			t.Fail()
 		}
@@ -249,9 +252,12 @@ func TestToICAPMessage(t *testing.T) {
 			"User-Agent: Go-http-client/1.1\r\n" +
 			"Accept-Encoding: gzip\r\n\r\n"
 
-		got := string(icapRequest)
+		got, err := io.ReadAll(icapRequest)
+		if err != nil {
+			t.Fatal(err.Error())
+		}
 
-		if wanted != got {
+		if wanted != string(got) {
 			t.Logf("wanted: \n%s\ngot: \n%s\n", wanted, got)
 			t.Fail()
 		}
@@ -276,9 +282,12 @@ func TestToICAPMessage(t *testing.T) {
 			"Hello World\r\n" +
 			"0\r\n\r\n"
 
-		got = string(icapRequest)
+		got, err = io.ReadAll(icapRequest)
+		if err != nil {
+			t.Fatal(err.Error())
+		}
 
-		if wanted != got {
+		if wanted != string(got) {
 			t.Logf("wanted: \n%s\ngot: \n%s\n", wanted, got)
 			t.Fail()
 		}
@@ -322,9 +331,12 @@ func TestToICAPMessage(t *testing.T) {
 			"Hello World\r\n" +
 			"0\r\n\r\n"
 
-		got := string(icapRequest)
+		got, err := io.ReadAll(icapRequest)
+		if err != nil {
+			t.Fatal(err.Error())
+		}
 
-		if wanted != got {
+		if wanted != string(got) {
 			t.Logf("wanted: \n%s\ngot: \n%s\n", wanted, got)
 			t.Fail()
 		}
